@@ -41,18 +41,15 @@ RUN npm install -g pnpm
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
 
-# Install production dependencies only
-RUN pnpm install --prod --frozen-lockfile
+# Install all dependencies (need drizzle-kit for push command)
+RUN pnpm install --frozen-lockfile
 
 # Copy built app from builder
 COPY --from=builder /app/build ./build
 
-# Copy database migration files and config
-COPY --from=builder /app/drizzle ./drizzle
-COPY --from=builder /app/drizzle.config.ts ./drizzle.config.ts
-
-# Copy database schema files (needed by drizzle.config.ts)
-COPY --from=builder /app/src/lib/server/db ./src/lib/server/db
+# Copy drizzle config and schema files (needed for drizzle-kit push)
+COPY drizzle.config.ts ./
+COPY src/lib/server/db ./src/lib/server/db
 
 # Create data directory for SQLite database with proper permissions
 RUN mkdir -p /app/data && chmod 777 /app/data
