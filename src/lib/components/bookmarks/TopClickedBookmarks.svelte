@@ -10,17 +10,11 @@
 		clickCount: number;
 	}
 
-	interface Props {
-		reload?: number;
-	}
-
-	let { reload = 0 }: Props = $props();
-
 	let topBookmarks = $state<TopClickedBookmark[]>([]);
 	let isLoading = $state(true);
 	let period = $state<'week' | 'month' | 'all'>('all');
 
-	async function loadTopClicked() {
+	export async function reload() {
 		isLoading = true;
 		try {
 			topBookmarks = await getTopClickedBookmarks({ period });
@@ -32,14 +26,13 @@
 	}
 
 	onMount(async () => {
-		await loadTopClicked();
+		await reload();
 	});
 
 	$effect(() => {
-		// Reload when period changes or reload signal changes
+		// Reload when period changes
 		period;
-		reload;
-		loadTopClicked();
+		reload();
 	});
 
 </script>

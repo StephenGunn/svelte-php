@@ -10,16 +10,10 @@
 		lastClickedAt: Date;
 	}
 
-	interface Props {
-		reload?: number;
-	}
-
-	let { reload = 0 }: Props = $props();
-
 	let recentBookmarks = $state<RecentBookmark[]>([]);
 	let isLoading = $state(true);
 
-	async function loadRecent() {
+	export async function reload() {
 		isLoading = true;
 		try {
 			recentBookmarks = await getRecentBookmarks();
@@ -31,12 +25,7 @@
 	}
 
 	onMount(async () => {
-		await loadRecent();
-	});
-
-	$effect(() => {
-		reload;
-		loadRecent();
+		await reload();
 	});
 
 </script>
