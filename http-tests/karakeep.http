@@ -1,0 +1,31 @@
+### Variables
+@baseUrl = https://links.jovianmoon.io
+@apiKey = ak2_217eb7ad3041812da4a9_15305e40972ca9360fbe323d74efb919
+
+### Get all bookmarks
+GET {{baseUrl}}/api/v1/bookmarks
+Authorization: Bearer {{apiKey}}
+
+### Get all bookmarks with filters
+GET {{baseUrl}}/api/v1/bookmarks?archived=false&limit=20
+Authorization: Bearer {{apiKey}}
+
+### Search bookmarks
+GET {{baseUrl}}/api/v1/bookmarks/search?q=test
+Authorization: Bearer {{apiKey}}
+
+### Get all lists (folders/categories)
+GET {{baseUrl}}/api/v1/lists
+Authorization: Bearer {{apiKey}}
+
+### Get all tags
+GET {{baseUrl}}/api/v1/tags
+Authorization: Bearer {{apiKey}}
+
+### Get a single bookmark (replace {id} with actual bookmark ID)
+GET {{baseUrl}}/api/v1/bookmarks/{id}
+Authorization: Bearer {{apiKey}}
+
+### Get bookmarks with pagination
+GET {{baseUrl}}/api/v1/bookmarks?limit=10&cursor=
+Authorization: Bearer {{apiKey}}
