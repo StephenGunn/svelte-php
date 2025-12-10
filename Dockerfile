@@ -41,8 +41,8 @@ RUN npm install -g pnpm
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
 
-# Install all dependencies (need drizzle-kit for push command)
-RUN pnpm install --frozen-lockfile
+# Install production dependencies only
+RUN pnpm install --prod --frozen-lockfile
 
 # Copy built app from builder
 COPY --from=builder /app/build ./build

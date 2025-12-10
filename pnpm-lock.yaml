@@ -11,6 +11,12 @@ importers:
       better-sqlite3:
         specifier: ^12.4.1
         version: 12.5.0
+      drizzle-kit:
+        specifier: ^0.31.7
+        version: 0.31.8
+      drizzle-orm:
+        specifier: ^0.44.7
+        version: 0.44.7(@types/better-sqlite3@7.6.13)(better-sqlite3@12.5.0)
     devDependencies:
       '@eslint/compat':
         specifier: ^1.4.0
@@ -57,12 +63,6 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      drizzle-kit:
-        specifier: ^0.31.7
-        version: 0.31.8
-      drizzle-orm:
-        specifier: ^0.44.7
-        version: 0.44.7(@types/better-sqlite3@7.6.13)(better-sqlite3@12.5.0)
       eslint:
         specifier: ^9.39.1
         version: 9.39.1(jiti@2.6.1)
