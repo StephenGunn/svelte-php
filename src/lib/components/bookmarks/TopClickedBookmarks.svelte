@@ -35,9 +35,6 @@
 		loadTopClicked();
 	});
 
-	function openBookmark(bookmark: TopClickedBookmark) {
-		window.location.href = bookmark.url;
-	}
 </script>
 
 <div class="flex flex-col gap-3">
@@ -79,9 +76,10 @@
 	{:else if topBookmarks.length > 0}
 		<div class="space-y-1.5">
 			{#each topBookmarks as bookmark, i}
-				<button
-					onclick={() => openBookmark(bookmark)}
-					class="flex w-full items-center gap-2 rounded-md border border-border bg-card p-2 text-left transition-colors hover:bg-accent"
+				<a
+					href={bookmark.url}
+					target="_blank"
+					class="flex w-full items-center gap-2 rounded-md border border-border bg-card p-2 transition-colors hover:bg-accent no-underline"
 				>
 					<span class="text-xs font-bold text-muted-foreground w-4">{i + 1}</span>
 					{#if bookmark.favicon}
@@ -100,7 +98,7 @@
 					<div class="text-xs text-muted-foreground">
 						{bookmark.clickCount}
 					</div>
-				</button>
+				</a>
 			{/each}
 		</div>
 	{:else}

@@ -68,7 +68,8 @@
 		expandedFolders = new Set(expandedFolders);
 	}
 
-	async function handleBookmarkClick(bookmark: KarakeepBookmark) {
+	async function handleBookmarkClick(e: MouseEvent, bookmark: KarakeepBookmark) {
+		// Track the click but don't prevent default link behavior
 		try {
 			await trackClick({
 				bookmarkId: bookmark.id,
@@ -79,7 +80,6 @@
 		} catch (error) {
 			console.error('Failed to track click:', error);
 		}
-		window.location.href = bookmark.content.url;
 	}
 
 	// Search functions
@@ -183,9 +183,11 @@
 			{#if searchResults.length > 0}
 				<div class="space-y-2">
 					{#each searchResults as bookmark}
-						<button
-							onclick={() => handleBookmarkClick(bookmark)}
-							class="w-full flex items-start gap-3 rounded-md border border-border bg-card p-3 text-left transition-colors hover:bg-accent"
+						<a
+							href={bookmark.content.url}
+							target="_blank"
+							onclick={(e) => handleBookmarkClick(e, bookmark)}
+							class="w-full flex items-start gap-3 rounded-md border border-border bg-card p-3 transition-colors hover:bg-accent no-underline"
 						>
 							{#if bookmark.content.favicon}
 								<img
@@ -208,7 +210,7 @@
 									{bookmark.content.url}
 								</div>
 							</div>
-						</button>
+						</a>
 					{/each}
 				</div>
 			{:else if !isSearching}
@@ -231,9 +233,11 @@
 			{:else if currentBookmarks.length > 0}
 				<div class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
 					{#each currentBookmarks as bookmark}
-						<button
-							onclick={() => handleBookmarkClick(bookmark)}
-							class="flex flex-col gap-2 rounded-md border border-border bg-card p-3 text-left transition-colors hover:bg-accent"
+						<a
+							href={bookmark.content.url}
+							target="_blank"
+							onclick={(e) => handleBookmarkClick(e, bookmark)}
+							class="flex flex-col gap-2 rounded-md border border-border bg-card p-3 transition-colors hover:bg-accent no-underline"
 						>
 							<div class="flex items-start gap-2">
 								{#if bookmark.content.favicon}
@@ -255,7 +259,7 @@
 									{/if}
 								</div>
 							</div>
-						</button>
+						</a>
 					{/each}
 				</div>
 			{:else if currentFolder}

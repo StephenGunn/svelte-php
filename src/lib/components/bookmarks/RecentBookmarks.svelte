@@ -23,9 +23,6 @@
 		}
 	});
 
-	function openBookmark(bookmark: RecentBookmark) {
-		window.location.href = bookmark.url;
-	}
 </script>
 
 <div>
@@ -41,9 +38,10 @@
 	{:else if recentBookmarks.length > 0}
 		<div class="grid grid-cols-5 gap-2">
 			{#each recentBookmarks as bookmark}
-				<button
-					onclick={() => openBookmark(bookmark)}
-					class="flex flex-col items-center gap-1 group"
+				<a
+					href={bookmark.url}
+					target="_blank"
+					class="flex flex-col items-center gap-1 group no-underline"
 					title={bookmark.title}
 				>
 					<div
@@ -63,7 +61,7 @@
 					<span class="text-[10px] text-muted-foreground truncate w-full text-center group-hover:text-foreground leading-tight">
 						{bookmark.title}
 					</span>
-				</button>
+				</a>
 			{/each}
 		</div>
 	{:else}
