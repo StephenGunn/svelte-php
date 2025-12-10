@@ -40,7 +40,6 @@
 			{#each recentBookmarks as bookmark}
 				<a
 					href={bookmark.url}
-					target="_blank"
 					class="flex flex-col items-center gap-1 group no-underline"
 					title={bookmark.title}
 				>

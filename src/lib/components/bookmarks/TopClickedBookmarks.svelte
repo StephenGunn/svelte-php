@@ -78,7 +78,6 @@
 			{#each topBookmarks as bookmark, i}
 				<a
 					href={bookmark.url}
-					target="_blank"
 					class="flex w-full items-center gap-2 rounded-md border border-border bg-card p-2 transition-colors hover:bg-accent no-underline"
 				>
 					<span class="text-xs font-bold text-muted-foreground w-4">{i + 1}</span>

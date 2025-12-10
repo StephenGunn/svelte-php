@@ -185,7 +185,6 @@
 					{#each searchResults as bookmark}
 						<a
 							href={bookmark.content.url}
-							target="_blank"
 							onclick={(e) => handleBookmarkClick(e, bookmark)}
 							class="w-full flex items-start gap-3 rounded-md border border-border bg-card p-3 transition-colors hover:bg-accent no-underline"
 						>
@@ -235,7 +234,6 @@
 					{#each currentBookmarks as bookmark}
 						<a
 							href={bookmark.content.url}
-							target="_blank"
 							onclick={(e) => handleBookmarkClick(e, bookmark)}
 							class="flex flex-col gap-2 rounded-md border border-border bg-card p-3 transition-colors hover:bg-accent no-underline"
 						>
