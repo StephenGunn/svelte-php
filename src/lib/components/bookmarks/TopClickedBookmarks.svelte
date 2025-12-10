@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { getTopClickedBookmarks } from '$lib/../routes/bookmarks.remote';
+	import { bookmarkTrackingStore } from '$lib/stores/bookmark-tracking.svelte';
 
 	interface TopClickedBookmark {
 		bookmarkId: string;
@@ -30,8 +31,9 @@
 	});
 
 	$effect(() => {
-		// Reload when period changes
+		// Reload when period changes or when tracking is invalidated
 		period;
+		bookmarkTrackingStore.signal;
 		loadTopClicked();
 	});
 

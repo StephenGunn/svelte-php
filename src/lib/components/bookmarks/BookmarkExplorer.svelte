@@ -3,6 +3,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import type { KarakeepList, KarakeepBookmark } from '$lib/types/karakeep';
 	import { getLists, getBookmarksByList, trackClick, searchBookmarks as searchBookmarksRemote } from '$lib/../routes/bookmarks.remote';
+	import { bookmarkTrackingStore } from '$lib/stores/bookmark-tracking.svelte';
 
 	let lists = $state<KarakeepList[]>([]);
 	let currentFolder = $state<KarakeepList | null>(null);
@@ -77,6 +78,8 @@
 				title: bookmark.title,
 				favicon: bookmark.content.favicon
 			});
+			// Invalidate tracking displays
+			bookmarkTrackingStore.invalidate();
 		} catch (error) {
 			console.error('Failed to track click:', error);
 		}
