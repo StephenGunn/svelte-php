@@ -28,8 +28,8 @@ export const actions = {
 		cookies.set('session', crypto.randomUUID(), {
 			path: '/',
 			httpOnly: true,
-			sameSite: 'strict',
-			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'lax',
+			secure: true, // Always require HTTPS in production
 			maxAge: 60 * 60 * 24 * 365 // 1 year
 		});
 
