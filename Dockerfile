@@ -38,14 +38,10 @@ WORKDIR /app
 # Install pnpm
 RUN npm install -g pnpm
 
-# Copy package files
-COPY package.json pnpm-lock.yaml ./
-
-# Install production dependencies only
-RUN pnpm install --prod --frozen-lockfile
-
-# Copy built app from builder
+# Copy built app and node_modules from builder (includes compiled better-sqlite3)
 COPY --from=builder /app/build ./build
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
 
 # Copy drizzle config and schema files (needed for drizzle-kit push)
 COPY drizzle.config.ts ./
