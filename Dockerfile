@@ -34,8 +34,11 @@ COPY --from=builder /app/build ./build
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/node_modules ./node_modules
 
-# Copy drizzle config and schema files (needed for drizzle-kit push)
+# Copy database migration files and config
+COPY --from=builder /app/drizzle ./drizzle
 COPY --from=builder /app/drizzle.config.ts ./drizzle.config.ts
+
+# Copy database schema files (needed by drizzle.config.ts)
 COPY --from=builder /app/src/lib/server/db ./src/lib/server/db
 
 # Create data directory for SQLite database with proper permissions
