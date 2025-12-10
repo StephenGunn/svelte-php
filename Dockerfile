@@ -14,6 +14,9 @@ COPY package.json pnpm-lock.yaml ./
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
+# Rebuild better-sqlite3 to compile native bindings
+RUN pnpm rebuild better-sqlite3
+
 # Copy source code
 COPY . .
 
