@@ -29,3 +29,7 @@ Authorization: Bearer {{apiKey}}
 ### Get bookmarks with pagination
 GET {{baseUrl}}/api/v1/bookmarks?limit=10&cursor=
 Authorization: Bearer {{apiKey}}
+
+### Get bookmarks by list ID (test)
+GET {{baseUrl}}/api/v1/bookmarks?lists=LIST_ID_HERE
+Authorization: Bearer {{apiKey}}

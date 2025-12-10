@@ -53,6 +53,7 @@ export class KarakeepClient {
 		favourited?: boolean;
 		limit?: number;
 		cursor?: string;
+		lists?: string[];
 	}): Promise<KarakeepBookmarksResponse> {
 		const params: Record<string, string> = {};
 
@@ -60,6 +61,7 @@ export class KarakeepClient {
 		if (options?.favourited !== undefined) params.favourited = String(options.favourited);
 		if (options?.limit) params.limit = String(options.limit);
 		if (options?.cursor) params.cursor = options.cursor;
+		if (options?.lists && options.lists.length > 0) params.lists = options.lists.join(',');
 
 		return this.fetch<KarakeepBookmarksResponse>('/bookmarks', params);
 	}
@@ -70,6 +72,25 @@ export class KarakeepClient {
 
 	async getTags(): Promise<KarakeepTagsResponse> {
 		return this.fetch<KarakeepTagsResponse>('/tags');
+	}
+
+	async getListBookmarks(
+		listId: string,
+		options?: {
+			sortOrder?: 'asc' | 'desc';
+			limit?: number;
+			cursor?: string;
+			includeContent?: boolean;
+		}
+	): Promise<KarakeepBookmarksResponse> {
+		const params: Record<string, string> = {};
+
+		if (options?.sortOrder) params.sortOrder = options.sortOrder;
+		if (options?.limit) params.limit = String(options.limit);
+		if (options?.cursor) params.cursor = options.cursor;
+		if (options?.includeContent !== undefined) params.includeContent = String(options.includeContent);
+
+		return this.fetch<KarakeepBookmarksResponse>(`/lists/${listId}/bookmarks`, params);
 	}
 }
 

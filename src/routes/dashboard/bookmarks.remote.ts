@@ -45,6 +45,41 @@ export const getRecentBookmarks = query(async () => {
 	return recentBookmarks;
 });
 
+// Schemas for top clicked
+const TopClickedSchema = v.object({
+	period: v.optional(v.picklist(['week', 'month', 'all']), 'all')
+});
+
+// Query: Get top clicked bookmarks
+export const getTopClickedBookmarks = query(
+	TopClickedSchema,
+	async ({ period }: v.InferOutput<typeof TopClickedSchema>) => {
+		let dateFilter = sql`1=1`;
+
+		if (period === 'week') {
+			dateFilter = sql`${bookmarkClick.clickedAt} >= datetime('now', '-7 days')`;
+		} else if (period === 'month') {
+			dateFilter = sql`${bookmarkClick.clickedAt} >= datetime('now', '-30 days')`;
+		}
+
+		const topClicked = await db
+			.select({
+				bookmarkId: bookmarkClick.bookmarkId,
+				url: bookmarkClick.url,
+				title: bookmarkClick.title,
+				favicon: bookmarkClick.favicon,
+				clickCount: sql<number>`COUNT(*)`
+			})
+			.from(bookmarkClick)
+			.where(dateFilter)
+			.groupBy(bookmarkClick.bookmarkId)
+			.orderBy(desc(sql`COUNT(*)`))
+			.limit(10);
+
+		return topClicked;
+	}
+);
+
 // Command: Track bookmark click
 export const trackClick = command(
 	TrackClickSchema,
@@ -56,5 +91,25 @@ export const trackClick = command(
 			favicon,
 			clickedAt: new Date()
 		});
+	}
+);
+
+// Query: Get all lists/folders
+export const getLists = query(async () => {
+	const response = await karakeep.getLists();
+	return response.lists;
+});
+
+// Query: Get bookmarks by list ID
+const GetBookmarksByListSchema = v.object({
+	listId: v.string(),
+	limit: v.optional(v.number(), 50)
+});
+
+export const getBookmarksByList = query(
+	GetBookmarksByListSchema,
+	async ({ listId, limit }: v.InferOutput<typeof GetBookmarksByListSchema>) => {
+		const response = await karakeep.getListBookmarks(listId, { limit });
+		return response.bookmarks;
 	}
 );
