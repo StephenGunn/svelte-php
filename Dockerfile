@@ -24,8 +24,8 @@ RUN npm run build
 # Production stage
 FROM node:22-alpine
 
-# Install runtime dependencies for better-sqlite3
-RUN apk add --no-cache python3 make g++
+# Install runtime dependencies for better-sqlite3 and curl for healthcheck
+RUN apk add --no-cache python3 make g++ curl
 
 WORKDIR /app
 
@@ -54,7 +54,7 @@ ENV DATABASE_URL=/app/data/dashboard.db
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1); }).on('error', () => { process.exit(1); });"
+  CMD curl -f http://localhost:3000/api/health || exit 1
 
 # Run database migrations and start the application
 CMD ["sh", "-c", "npx drizzle-kit push --force && node build"]
