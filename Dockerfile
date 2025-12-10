@@ -1,21 +1,15 @@
 FROM node:22-alpine AS builder
 
-# Install dependencies needed for better-sqlite3 and pnpm
+# Install dependencies needed for better-sqlite3
 RUN apk add --no-cache python3 make g++
 
 WORKDIR /app
 
-# Install pnpm
-RUN npm install -g pnpm
-
 # Copy package files
-COPY package.json pnpm-lock.yaml ./
+COPY package.json package-lock.json* ./
 
-# Install dependencies
-RUN pnpm install --frozen-lockfile
-
-# Rebuild better-sqlite3 to compile native bindings
-RUN pnpm rebuild better-sqlite3
+# Install dependencies (npm runs build scripts by default)
+RUN npm install
 
 # Copy source code
 COPY . .
@@ -24,11 +18,8 @@ COPY . .
 RUN mkdir -p /app/data
 ENV DATABASE_URL=/app/data/dashboard.db
 
-# Run svelte-kit sync to generate types
-RUN pnpm exec svelte-kit sync
-
 # Build the app
-RUN pnpm build
+RUN npm run build
 
 # Production stage
 FROM node:22-alpine
@@ -38,17 +29,14 @@ RUN apk add --no-cache python3 make g++
 
 WORKDIR /app
 
-# Install pnpm
-RUN npm install -g pnpm
-
 # Copy built app and node_modules from builder (includes compiled better-sqlite3)
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/node_modules ./node_modules
 
 # Copy drizzle config and schema files (needed for drizzle-kit push)
-COPY drizzle.config.ts ./
-COPY src/lib/server/db ./src/lib/server/db
+COPY --from=builder /app/drizzle.config.ts ./drizzle.config.ts
+COPY --from=builder /app/src/lib/server/db ./src/lib/server/db
 
 # Create data directory for SQLite database with proper permissions
 RUN mkdir -p /app/data && chmod 777 /app/data
@@ -66,4 +54,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1); }).on('error', () => { process.exit(1); });"
 
 # Run database migrations and start the application
-CMD ["sh", "-c", "pnpm exec drizzle-kit push --force && node build"]
+CMD ["sh", "-c", "npx drizzle-kit push --force && node build"]
