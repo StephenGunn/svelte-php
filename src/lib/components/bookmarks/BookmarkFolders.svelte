@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { KarakeepList, KarakeepBookmark } from '$lib/types/karakeep';
-	import { getLists, getBookmarksByList, trackClick } from '$lib/../routes/dashboard/bookmarks.remote';
+	import { getLists, getBookmarksByList, trackClick } from '$lib/../routes/bookmarks.remote';
 
 	let lists = $state<KarakeepList[]>([]);
 	let currentPath = $state<KarakeepList[]>([]);

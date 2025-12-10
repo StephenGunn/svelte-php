@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input';
 	import type { KarakeepBookmark } from '$lib/types/karakeep';
-	import { searchBookmarks as searchBookmarksRemote, trackClick } from '$lib/../routes/dashboard/bookmarks.remote';
+	import { searchBookmarks as searchBookmarksRemote, trackClick } from '$lib/../routes/bookmarks.remote';
 
 	let searchQuery = $state('');
 	let searchResults = $state<KarakeepBookmark[]>([]);

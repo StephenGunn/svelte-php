@@ -1,4 +1,4 @@
-import { getTasks, getCurrentTask } from '$lib/../routes/dashboard/tasks.remote';
+import { getTasks, getCurrentTask } from '$lib/../routes/tasks.remote';
 
 interface Task {
 	id: string;

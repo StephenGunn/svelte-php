@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getRecentBookmarks } from '$lib/../routes/dashboard/bookmarks.remote';
+	import { getRecentBookmarks } from '$lib/../routes/bookmarks.remote';
 
 	interface RecentBookmark {
 		bookmarkId: string;

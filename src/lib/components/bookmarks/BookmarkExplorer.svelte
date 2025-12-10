@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { Input } from '$lib/components/ui/input';
 	import type { KarakeepList, KarakeepBookmark } from '$lib/types/karakeep';
-	import { getLists, getBookmarksByList, trackClick, searchBookmarks as searchBookmarksRemote } from '$lib/../routes/dashboard/bookmarks.remote';
+	import { getLists, getBookmarksByList, trackClick, searchBookmarks as searchBookmarksRemote } from '$lib/../routes/bookmarks.remote';
 
 	let lists = $state<KarakeepList[]>([]);
 	let currentFolder = $state<KarakeepList | null>(null);

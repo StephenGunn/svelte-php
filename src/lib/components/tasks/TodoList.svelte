@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
-	import { createTask, startTask, deleteTask } from '$lib/../routes/dashboard/tasks.remote';
+	import { createTask, startTask, deleteTask } from '$lib/../routes/tasks.remote';
 	import { tasksStore } from '$lib/stores/tasks.svelte';
 
 	let newTaskTitle = $state('');

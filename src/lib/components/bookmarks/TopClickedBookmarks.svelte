@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getTopClickedBookmarks } from '$lib/../routes/dashboard/bookmarks.remote';
+	import { getTopClickedBookmarks } from '$lib/../routes/bookmarks.remote';
 
 	interface TopClickedBookmark {
 		bookmarkId: string;

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { Button } from '$lib/components/ui/button';
-	import { pauseTask, completeTask } from '$lib/../routes/dashboard/tasks.remote';
+	import { pauseTask, completeTask } from '$lib/../routes/tasks.remote';
 	import { tasksStore } from '$lib/stores/tasks.svelte';
 
 	let elapsedTime = $state('00:00:00');

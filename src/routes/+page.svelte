@@ -1,37 +1,69 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
-	import {
-		FieldGroup,
-		Field,
-		FieldLabel,
-		FieldDescription,
-		FieldError
-	} from '$lib/components/ui/field';
-	import type { ActionData } from './$types';
+	import { onMount } from 'svelte';
+	import DashboardCard from '$lib/components/dashboard/DashboardCard.svelte';
+	import RecentBookmarks from '$lib/components/bookmarks/RecentBookmarks.svelte';
+	import BookmarkExplorer from '$lib/components/bookmarks/BookmarkExplorer.svelte';
+	import TopClickedBookmarks from '$lib/components/bookmarks/TopClickedBookmarks.svelte';
+	import CurrentTask from '$lib/components/tasks/CurrentTask.svelte';
+	import TodoList from '$lib/components/tasks/TodoList.svelte';
+	import { tasksStore } from '$lib/stores/tasks.svelte';
 
-	let { form }: { form: ActionData } = $props();
+	onMount(() => {
+		tasksStore.load();
+	});
 </script>
 
-<div class="flex min-h-screen items-center justify-center">
-	<div class="flex w-full max-w-md flex-col gap-6 p-4">
-		<form method="POST">
-			<FieldGroup>
-				<div class="flex flex-col gap-2 text-center">
-					<h1 class="text-2xl font-bold">dashboard</h1>
-					<FieldDescription>personal new tab page</FieldDescription>
-				</div>
-				<Field>
-					<FieldLabel for="password">password</FieldLabel>
-					<Input id="password" name="password" type="password" required />
-					{#if form?.error}
-						<FieldError>{form.error}</FieldError>
-					{/if}
-				</Field>
-				<Field>
-					<Button type="submit" class="w-full">login</Button>
-				</Field>
-			</FieldGroup>
-		</form>
+<div class="min-h-screen p-4">
+	<div class="grid gap-4 xl:grid-cols-2">
+		<!-- Left Column -->
+		<div class="flex flex-col gap-4">
+			<!-- Current Task (prominent) -->
+			<DashboardCard title="current task">
+				<CurrentTask />
+			</DashboardCard>
+
+			<!-- Todos -->
+			<DashboardCard title="todos">
+				<TodoList />
+			</DashboardCard>
+
+			<!-- Recent, Time, and Todos in grid -->
+			<div class="grid grid-cols-2 gap-4">
+				<DashboardCard title="recent">
+					<RecentBookmarks />
+				</DashboardCard>
+
+				<DashboardCard title="time">
+					<div class="text-center text-4xl font-bold">
+						{new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+					</div>
+				</DashboardCard>
+			</div>
+
+			<!-- Placeholder cards -->
+			<div class="grid grid-cols-2 gap-4">
+				<DashboardCard title="calendar">
+					<div class="text-center text-xs text-muted-foreground py-4">
+						google calendar integration coming soon
+					</div>
+				</DashboardCard>
+
+				<DashboardCard title="github">
+					<div class="text-center text-xs text-muted-foreground py-4">
+						github notifications coming soon
+					</div>
+				</DashboardCard>
+			</div>
+
+			<!-- Top Clicked Bookmarks (at bottom) -->
+			<DashboardCard title="top clicked">
+				<TopClickedBookmarks />
+			</DashboardCard>
+		</div>
+
+		<!-- Right Column: Bookmark Explorer with Sidebar -->
+		<div class="h-[800px]">
+			<BookmarkExplorer />
+		</div>
 	</div>
 </div>
