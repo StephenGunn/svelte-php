@@ -8,9 +8,15 @@
 	import TodoList from '$lib/components/tasks/TodoList.svelte';
 	import { tasksStore } from '$lib/stores/tasks.svelte';
 
+	let reloadSignal = $state(0);
+
 	onMount(() => {
 		tasksStore.load();
 	});
+
+	function handleTrackingUpdate() {
+		reloadSignal++;
+	}
 </script>
 
 <div class="min-h-screen p-4">
@@ -30,7 +36,7 @@
 			<!-- Recent, Time, and Todos in grid -->
 			<div class="grid grid-cols-2 gap-4">
 				<DashboardCard title="recent">
-					<RecentBookmarks />
+					<RecentBookmarks reload={reloadSignal} />
 				</DashboardCard>
 
 				<DashboardCard title="time">
@@ -57,13 +63,13 @@
 
 			<!-- Top Clicked Bookmarks (at bottom) -->
 			<DashboardCard title="top clicked">
-				<TopClickedBookmarks />
+				<TopClickedBookmarks reload={reloadSignal} />
 			</DashboardCard>
 		</div>
 
 		<!-- Right Column: Bookmark Explorer with Sidebar -->
 		<div class="h-[800px]">
-			<BookmarkExplorer />
+			<BookmarkExplorer onTrackingUpdate={handleTrackingUpdate} />
 		</div>
 	</div>
 </div>

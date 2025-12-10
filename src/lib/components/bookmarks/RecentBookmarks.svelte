@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { getRecentBookmarks } from '$lib/../routes/bookmarks.remote';
-	import { bookmarkTrackingStore } from '$lib/stores/bookmark-tracking.svelte';
 
 	interface RecentBookmark {
 		bookmarkId: string;
@@ -10,6 +9,12 @@
 		favicon: string | null;
 		lastClickedAt: Date;
 	}
+
+	interface Props {
+		reload?: number;
+	}
+
+	let { reload = 0 }: Props = $props();
 
 	let recentBookmarks = $state<RecentBookmark[]>([]);
 	let isLoading = $state(true);
@@ -30,8 +35,7 @@
 	});
 
 	$effect(() => {
-		// Reload when tracking is invalidated
-		bookmarkTrackingStore.signal;
+		reload;
 		loadRecent();
 	});
 

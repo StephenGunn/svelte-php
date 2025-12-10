@@ -3,7 +3,12 @@
 	import { Input } from '$lib/components/ui/input';
 	import type { KarakeepList, KarakeepBookmark } from '$lib/types/karakeep';
 	import { getLists, getBookmarksByList, trackClick, searchBookmarks as searchBookmarksRemote } from '$lib/../routes/bookmarks.remote';
-	import { bookmarkTrackingStore } from '$lib/stores/bookmark-tracking.svelte';
+
+	interface Props {
+		onTrackingUpdate?: () => void;
+	}
+
+	let { onTrackingUpdate }: Props = $props();
 
 	let lists = $state<KarakeepList[]>([]);
 	let currentFolder = $state<KarakeepList | null>(null);
@@ -78,8 +83,8 @@
 				title: bookmark.title,
 				favicon: bookmark.content.favicon
 			});
-			// Invalidate tracking displays
-			bookmarkTrackingStore.invalidate();
+			// Notify parent to reload tracking displays
+			onTrackingUpdate?.();
 		} catch (error) {
 			console.error('Failed to track click:', error);
 		}
