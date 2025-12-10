@@ -19,3 +19,19 @@ export const bookmarkClick = sqliteTable('bookmark_click', {
 		.notNull()
 		.$defaultFn(() => new Date())
 });
+
+export const task = sqliteTable('task', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
+	title: text('title').notNull(),
+	status: text('status', { enum: ['todo', 'in_progress', 'done'] })
+		.notNull()
+		.default('todo'),
+	notes: text('notes'),
+	startedAt: integer('started_at', { mode: 'timestamp' }),
+	completedAt: integer('completed_at', { mode: 'timestamp' }),
+	createdAt: integer('created_at', { mode: 'timestamp' })
+		.notNull()
+		.$defaultFn(() => new Date())
+});
