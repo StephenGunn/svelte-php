@@ -1,18 +1,37 @@
 <script lang="ts">
-	import { Accordion } from 'bits-ui';
+	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
+	import {
+		FieldGroup,
+		Field,
+		FieldLabel,
+		FieldDescription,
+		FieldError
+	} from '$lib/components/ui/field';
+	import type { ActionData } from './$types';
+
+	let { form }: { form: ActionData } = $props();
 </script>
 
-<Accordion.Root type="single">
-	<Accordion.Item value="item-1">
-		<Accordion.Header>
-			<Accordion.Trigger>Item 1 Title</Accordion.Trigger>
-		</Accordion.Header>
-		<Accordion.Content>This is the collapsible content for this section.</Accordion.Content>
-	</Accordion.Item>
-	<Accordion.Item value="item-2">
-		<Accordion.Header>
-			<Accordion.Trigger>Item 2 Title</Accordion.Trigger>
-		</Accordion.Header>
-		<Accordion.Content>This is the collapsible content for this section.</Accordion.Content>
-	</Accordion.Item>
-</Accordion.Root>
+<div class="flex min-h-screen items-center justify-center">
+	<div class="flex w-full max-w-md flex-col gap-6 p-4">
+		<form method="POST">
+			<FieldGroup>
+				<div class="flex flex-col gap-2 text-center">
+					<h1 class="text-2xl font-bold">dashboard</h1>
+					<FieldDescription>personal new tab page</FieldDescription>
+				</div>
+				<Field>
+					<FieldLabel for="password">password</FieldLabel>
+					<Input id="password" name="password" type="password" required />
+					{#if form?.error}
+						<FieldError>{form.error}</FieldError>
+					{/if}
+				</Field>
+				<Field>
+					<Button type="submit" class="w-full">login</Button>
+				</Field>
+			</FieldGroup>
+		</form>
+	</div>
+</div>
