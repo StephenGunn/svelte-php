@@ -6,6 +6,7 @@
 	import TopClickedBookmarks from '$lib/components/bookmarks/TopClickedBookmarks.svelte';
 	import CurrentTask from '$lib/components/tasks/CurrentTask.svelte';
 	import TodoList from '$lib/components/tasks/TodoList.svelte';
+	import LaunchPad from '$lib/components/bookmarks/LaunchPad.svelte';
 	import { tasksStore } from '$lib/stores/tasks.svelte';
 
 	let recentBookmarksComponent: RecentBookmarks;
@@ -25,6 +26,11 @@
 	<div class="grid gap-4 xl:grid-cols-2">
 		<!-- Left Column -->
 		<div class="flex flex-col gap-4">
+			<!-- LaunchPad (at top) -->
+			<DashboardCard title="launchpad">
+				<LaunchPad />
+			</DashboardCard>
+
 			<!-- Current Task (prominent) -->
 			<DashboardCard title="current task">
 				<CurrentTask />
